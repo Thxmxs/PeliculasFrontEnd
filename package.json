@@ -21,6 +21,7 @@
     "react-markdown": "^8.0.7",
     "react-router-dom": "^6.10.0",
     "sass": "^1.62.1",
+    "sweetalert2": "^11.7.5",
     "typed-react-markdown": "^0.1.0",
     "yup": "^1.1.1"
   },

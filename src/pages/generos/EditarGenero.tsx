@@ -1,23 +1,46 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Link } from "react-router-dom";
+import { useGetGeneroById } from "../../hooks/useGetGeneroById";
+import { Cargando } from "../../components/shared/Cargando";
+import { editGeneroById } from "../../services/generos";
+import { useState } from 'react';
+
 
 export const EditarGenero = () => {
+
   const {id} :any = useParams();
-  console.log(id)
+  const {genero,loading} = useGetGeneroById(id);
+  const navigate = useNavigate();
+  const [erorres, setErorres] = useState<string[] | undefined>(undefined);
+  
   const formik = useFormik({
     initialValues:{
-      'nombre':'Shoujo'
+      'id':genero?.id ?? 0,
+      'nombre':genero?.nombre ?? ""
     },
+    enableReinitialize:true,
     validationSchema:Yup.object({
       nombre:Yup.string().required('El Nombre es obligatorio').primeraLetraMayuscula()
     }),
   
-    async onSubmit(values){    
-      console.log(values)
+    async onSubmit(values){
+
+      try {
+        await editGeneroById({nombre:values.nombre},id);
+        navigate('/generos');
+      } catch (error :any) {
+        setErorres(error);
+      }
+
     }
   });
+  console.log(erorres);
+
+  if(loading){
+    return <Cargando/>
+  }
 
 
   return (

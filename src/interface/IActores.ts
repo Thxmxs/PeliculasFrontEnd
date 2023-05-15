@@ -4,9 +4,10 @@ export interface ICreacionActor{
     nombre:string;
     fechaNacimiento:string;
     file?:File | undefined;
-    biografia:string
+    biografia:string;
 }
 export interface IEdicionActor{
+    id:number;
     nombre:string;
     fechaNacimiento:string;
     file?:File | undefined;
@@ -16,8 +17,10 @@ export interface IEdicionActor{
 export interface IActores{
     id:number;
     nombre:string;
-    personaje:string;
+    personaje?:string;
     foto:string;
+    biografia:string;
+    fechaNacimiento:string
 }
 export interface ITypeAheadActores{
     actores:IActores[]

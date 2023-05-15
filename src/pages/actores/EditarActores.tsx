@@ -1,24 +1,30 @@
-import {  Link } from 'react-router-dom';
+import {  Link, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import { IEdicionActor } from '../../interface/IActores';
+import { useGetActorById } from '../../hooks/useGetActorById';
+import { Cargando } from '../../components/shared/Cargando';
 
 export const EditarActores = () => {
-  //const {id} :any = useParams();
+    const {id} :any = useParams();
 
     //const navigate = useNavigate();
+    const {actor,loading} =useGetActorById(id);
     const [imagenBase64, setImagenBase64] = useState<any>();
+    console.log(actor);
 
     const formik = useFormik<IEdicionActor>({
       initialValues:{
-        'nombre':'Tokyo Ghoul',
-        'fechaNacimiento': '',
+        'id':actor?.id ?? 0,
+        'nombre':actor?.nombre ?? '',
+        'fechaNacimiento': actor?.fechaNacimiento ?? '',
         'file':undefined,
-        'fotoUrl':'https://otakuteca.com/images/books/cover/5d07c1d52967b.jpg',
-        'biografia':'# Thomas Cubillos'
+        'fotoUrl':actor?.foto,
+        'biografia':actor?.biografia ?? ''
       },
+      enableReinitialize:true,
       validationSchema:Yup.object({
         nombre:Yup.string().required('El Nombre es obligatorio').primeraLetraMayuscula(),
         fechaNacimiento:Yup.date().nullable().required('La fecha de nacimiento es obligatoria')
@@ -47,6 +53,11 @@ export const EditarActores = () => {
         reader.onerror = (err) => reject(err)
       })
     }
+
+    if(loading){
+      return <Cargando/>
+    }
+  
   
     return (
       <div>
