@@ -81,7 +81,6 @@ const Router = () => {
     {
       path: "/generos/crear",
       element: <CrearGenero />,
-      esAdmin: true,
     },
     {
       path: "/generos/editar/:id",
@@ -90,7 +89,7 @@ const Router = () => {
     {
       path: "/generos",
       element: <IndiceGeneros />,
-      esAdmin: true,
+
     },
     {
       path: "/peliculas/filtrar",

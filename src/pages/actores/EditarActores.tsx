@@ -10,16 +10,14 @@ import { Cargando } from '../../components/shared/Cargando';
 export const EditarActores = () => {
     const {id} :any = useParams();
 
-    //const navigate = useNavigate();
     const {actor,loading} =useGetActorById(id);
     const [imagenBase64, setImagenBase64] = useState<any>();
-    console.log(actor);
 
     const formik = useFormik<IEdicionActor>({
       initialValues:{
         'id':actor?.id ?? 0,
         'nombre':actor?.nombre ?? '',
-        'fechaNacimiento': actor?.fechaNacimiento ?? '',
+        'fechaNacimiento': actor?.fechaNacimiento.toLocaleString().slice(0, 10) ?? '',
         'file':undefined,
         'fotoUrl':actor?.foto,
         'biografia':actor?.biografia ?? ''

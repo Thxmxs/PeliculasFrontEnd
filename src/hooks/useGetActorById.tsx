@@ -14,7 +14,7 @@ export const useGetActorById = (id:number) => {
           setActor(response.data);
           setLoading(false);
         })
-      }, [])
+      }, [id])
   
       return {actor,loading};
 }

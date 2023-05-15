@@ -9,7 +9,7 @@ export interface ICreacionActor{
 export interface IEdicionActor{
     id:number;
     nombre:string;
-    fechaNacimiento:string;
+    fechaNacimiento:string | Date ;
     file?:File | undefined;
     biografia:string;
     fotoUrl?:string
@@ -20,7 +20,7 @@ export interface IActores{
     personaje?:string;
     foto:string;
     biografia:string;
-    fechaNacimiento:string
+    fechaNacimiento:string | Date
 }
 export interface ITypeAheadActores{
     actores:IActores[]
