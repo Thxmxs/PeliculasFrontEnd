@@ -26,7 +26,7 @@ import { AuthContext } from "../context/AuthContext";
 validations();
 
 const Router = () => {
-  const [claims, setClaims] = useState<IClaim[]>([]);
+  const [claims, setClaims] = useState<IClaim[]>([{'nombre':'role',valor:'admin'}]);
 
   const actualizar = (claims: IClaim[]) => {
     setClaims(claims);

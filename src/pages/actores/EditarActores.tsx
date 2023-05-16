@@ -1,25 +1,28 @@
-import {  Link, useParams } from 'react-router-dom';
+import {  Link, useNavigate, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
-import { IEdicionActor } from '../../interface/IActores';
+import { ICreacionActor } from '../../interface/IActores';
 import { useGetActorById } from '../../hooks/useGetActorById';
 import { Cargando } from '../../components/shared/Cargando';
+import { convertirActorAFormData } from '../../helpers/formDataHelper';
+import { editActorById } from '../../services/actores';
 
 export const EditarActores = () => {
+    const navigate = useNavigate();
     const {id} :any = useParams();
 
     const {actor,loading} =useGetActorById(id);
     const [imagenBase64, setImagenBase64] = useState<any>();
+    const [errores, setErrores] = useState<string[]>([]);
 
-    const formik = useFormik<IEdicionActor>({
+    const formik = useFormik<ICreacionActor>({
       initialValues:{
-        'id':actor?.id ?? 0,
         'nombre':actor?.nombre ?? '',
         'fechaNacimiento': actor?.fechaNacimiento.toLocaleString().slice(0, 10) ?? '',
         'file':undefined,
-        'fotoUrl':actor?.foto,
+        'fotoUrl':actor?.foto ?? '',
         'biografia':actor?.biografia ?? ''
       },
       enableReinitialize:true,
@@ -30,6 +33,13 @@ export const EditarActores = () => {
     
       async onSubmit(values){    
         console.log(values)
+        try {
+          const formData = convertirActorAFormData(values);
+          await editActorById(formData,id);
+          navigate("/");
+        } catch (error: any) {
+          setErrores(error.response.data);
+        }
       }
     });
     
@@ -60,6 +70,14 @@ export const EditarActores = () => {
     return (
       <div>
         <h3>Crear Actores</h3>
+        {
+          errores && 
+          <ul>
+            {
+              errores.map(error => (<li key={error}>{error}</li>))
+            }
+          </ul>
+        }
         <form onSubmit={formik.handleSubmit}>
           <div className="form-group">
               <label style={{color:formik.errors.nombre && formik.touched.nombre ? 'red' :'black'}} htmlFor="nombre">{formik.errors.nombre && formik.touched.nombre ? formik.errors.nombre : 'Nombre'}</label>

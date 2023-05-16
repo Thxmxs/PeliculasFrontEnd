@@ -5,6 +5,7 @@ export interface ICreacionActor{
     fechaNacimiento:string;
     file?:File | undefined;
     biografia:string;
+    fotoUrl?:string
 }
 export interface IEdicionActor{
     id:number;

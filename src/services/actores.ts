@@ -29,3 +29,14 @@ export const getActorByID = async(id:number) =>{
     var response = await axios.get(`${apiURL}/actores/${id}`);
     return response;
 }
+
+export const editActorById = async(actor:FormData,id:number)=>{
+    //const response = await axios.put(`${apiURL}/actores/${id}`,actor);
+    const response = await axios({
+        method:'put',
+        url:`${apiURL}/actores/${id}`,
+        data:actor,
+        headers:{'Content-Type':'multipart/form-data'}
+    });
+    return response
+}

@@ -1,7 +1,7 @@
 export interface ICreacionCine{
     nombre:string;
-    latitud?:number;
-    longitud?:number;
+    latitud:number;
+    longitud:number;
 }
 export interface ICine{
     id:number;
